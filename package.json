@@ -1,0 +1,27 @@
+{
+  "name": "my-todo-list",
+  "version": "1.0.0",
+  "description": "Creating a todo list website using SOLID principles.",
+  "main": "index.js",
+  "scripts": {
+     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ara404E/My-todo-list.git"
+  },
+  "author": "Ara404E",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ara404E/My-todo-list/issues"
+  },
+  "homepage": "https://github.com/Ara404E/My-todo-list#readme",
+  "devDependencies": {
+    "webpack": "^5.93.0",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
