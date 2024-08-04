@@ -3,9 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>My TODO list</title>
 </head>
 <body>
-    <script src="bundle.js"></script>
-</body>
-</html>
+    <div class="container" id="container">
+        <section id="left-side">
+            <div class="left-side-container">
+                <!-- <h1> welcome to your TODO List </h1> -->
+                <h1 class="menu-heading">menu</h1>
+                <div class="tab-section">
+                    
+                    <li>Home</li>
+                    <li>Today</li>
+                    <li>This Week</li>
+                
+                </div>
+            <div class="project-section">
+                <h3 class="project-heading"> Projects </h3>
+                <button class="add-project-btn"> Add projects </button>
+                
+            </div>
+            </div>
+        </section>
+
+        <!-- right side  -->
+
+        <section id="right-side">
+            <div class="right-side-container">
+                <h1 class="TODO-heading"> TODO List </h1>
+                <h2 class="current-tab">Home</h2>
+                <span class="current-task">current Task</span>
+                <hr>
+                <br>
+                <button class="add-task-btn"> + add task </button>
+            </div>
+        </section>
+    </div>
+        <!-- <option value=""> ⭐⭐⭐⭐ </option> -->
+        
+        <script src="bundle.js"></script>
+    </body>
+    </html>

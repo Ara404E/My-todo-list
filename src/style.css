@@ -1,0 +1,82 @@
+*{
+    box-sizing: border-box;
+}
+@font-face {
+    font-family: 'MyFont';
+    src: url('./Montserrat-Regular.ttf') format('truetype'),
+}
+html{
+    background-color: #1E2022;
+    font-family: 'MyFont';
+}
+h1{
+    font-size: 2rem;
+    color: #FC5185;
+}
+#container{
+    display: flex;
+}
+
+       /* left side */
+
+#left-side{
+        margin: 20px 25% 0 3% ;
+}
+
+.tab-section{
+    margin-top: 20px;
+    margin-bottom: 100px;
+}
+.tab-section > li{
+    margin: 10px 0 20px 0;
+    font-size: 1.5rem;
+    color: #F4CE14;
+    list-style: none;
+    cursor: pointer;
+}
+.tab-section > li:hover{
+    color: #F9ED69;
+}
+.project-section{
+    color: #FC5185;
+    font-size: 2rem;
+}
+.add-project-btn{
+    width: 100px;
+    font-size: 1.5rem;
+    color: #F9ED69;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+         /* right side  */
+
+#right-side{
+     margin-top: 20px;
+     width: 50%;
+}
+.current-tab{
+    font-size: 1.75rem;
+    margin-bottom: 25px;
+    color: #F4CE14;
+}
+.current-task{
+    color: #EB5B00;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.right-side-container > hr{
+    width: 100%;
+    border-color: #EB5B00;    
+}
+.add-task-btn{
+    margin-top: 50px;
+    width: 120px;
+    font-size: 1.25rem;
+    color: #F9ED69;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
