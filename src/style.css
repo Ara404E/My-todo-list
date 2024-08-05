@@ -3,7 +3,7 @@
 }
 @font-face {
     font-family: 'MyFont';
-    src: url('./Montserrat-Regular.ttf') format('truetype'),
+    src: url('./asset/Montserrat-Regular.ttf') format('truetype'),
 }
 html{
     background-color: #1E2022;
