@@ -16,31 +16,35 @@
                     <li id="home-tab">Home</li>
                     <li id="today-tab">Today</li>
                     <li id="thisWeek-tab">This Week</li>
-                
+                    
                 </div>
-            <div class="project-section">
-                <h3 class="project-heading"> Projects </h3>
-                <button class="add-project-btn"> Add projects </button>
-                
-            </div>
+                <div class="project-section">
+                    <h3 class="project-heading"> Projects </h3>
+                    <button class="add-project-btn"> Add projects </button>
+                    
+                </div>
             </div>
         </section>
-
+        
         <!-- right side  -->
-
+        
         <section id="right-side">
             <div class="right-side-container">
-                <h1 class="TODO-heading"> TODO List </h1>
-                <div class="current-tab-div" id="current-tab-div">
-                    <h2 class="current-tab">Home</h2>
-                    <span class="current-task">current Task</span>
-                    <hr>
-                    <br>
-                    <button class="add-task-btn"> + add task </button>
+                <div  class="modal" id="modal"> 
+                    <div class="modal-body">
+                    </div>
                 </div>
+                <h1 class="TODO-heading"> TODO List </h1>
+                <h2 class="current-tab">Home</h2>
+                <span class="current-task">current Task</span>
+                <hr>
+                
+                <div class="current-tab-div" id="current-tab-div"></div>
+                        <div class="add-task-div"></div>
             </div>
         </section>
     </div>
+    <div   id="overlay"> </div>
         <!-- <option value=""> ⭐⭐⭐⭐ </option> -->
         
         <script src="bundle.js"></script>
