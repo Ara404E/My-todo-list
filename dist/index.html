@@ -30,22 +30,52 @@
         
         <section id="right-side">
             <div class="right-side-container">
+
+                        <!-- create Task modal -->
+
                 <div  class="modal" id="modal"> 
                     <div class="modal-body">
                     </div>
                 </div>
+                         <!-- --------- -->
+
                 <h1 class="TODO-heading"> TODO List </h1>
                 <h2 class="current-tab">Home</h2>
                 <span class="current-task">current Task</span>
                 <hr>
                 
                 <div class="current-tab-div" id="current-tab-div"></div>
-                        <div class="add-task-div"></div>
+                <div class="add-task-div"></div>
             </div>
         </section>
+
     </div>
-    <div   id="overlay"> </div>
-        <!-- <option value=""> ⭐⭐⭐⭐ </option> -->
+                <div  class="modal" id="edit-modal"> 
+                    <div class="modal-body">
+                       <form action=""  class="edit-form">
+                            <input type="text" class="edit-name" placeholder="Task Name">
+                            <input type="date" class="edit-due-date">
+                                    
+                            <button type="submit"> Save Changes </button>
+                        
+                        </form>
+            </div>
+                </div>
+
+                     <div  class="modal" id="project-modal"> 
+                    <div class="modal-body" id="project-body-modal">
+                       <form action=""  class="project-form">
+                            <input type="text" class="project-name" placeholder="project name">
+                            <textarea name="" id="project-description" placeholder="Project description"> grdgd</textarea>
+                                            
+                            <button type="submit" class="create-project-btn"> Create Project </button>
+                        
+                        </form>
+            </div>
+                </div>
+
+    <div  id="overlay"> </div>
+
         
         <script src="bundle.js"></script>
     </body>
