@@ -59,7 +59,7 @@ h1{
     pointer-events: all;
 
 }
-.open-form-modal{
+#create-task{
     margin-top: 50px ;
     width: 120px;
     font-size: 1.25rem;
@@ -68,6 +68,19 @@ h1{
     border: none;
     background: none;
 }
+
+
+
+#project-task-btn{
+     margin-top: 50px ;
+    width: 120px;
+    font-size: 1.25rem;
+    color: #F9ED69;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
 
 .name-input{
     margin: 2px;
@@ -166,7 +179,6 @@ h1{
     color: #FC5185;
     font-size: 2rem;
 }
-
 .add-project-btn{
     width: 100px;
     font-size: 1.5rem;
@@ -175,6 +187,27 @@ h1{
     border: none;
     background: none;
 }
+
+ul{
+    list-style-type: none;
+    overflow: hidden;
+    margin:0;
+    padding:0;
+}
+
+.project-name-list{
+    font-size: 1rem;
+    border: none;
+    background: none;
+    max-width: 100px;
+    color: #FFE6E6;
+    cursor: pointer;
+}
+
+.project-name-list:hover{
+    background-color: #2C3333;
+}
+
 
          /* right side  */
          
@@ -313,10 +346,3 @@ h1{
     padding: 7px 10px ;
 }
 
-.project-name{
-
-}
-
-#project-description{
-
-}
