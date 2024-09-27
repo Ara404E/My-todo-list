@@ -27,24 +27,22 @@ class TaskManager{
 
     }
 
-    editTask(index,newName,newDueDate){
-        if(index <=0 || index < this.task.length){
+     
+    removeTask(index) {
+        if(index >= 0 || index < this.task.length) {
+            this.task.splice(index, 1);
+        }
+    }
+
+     editTask(index,newName,newDueDate){
+        const taskIndex=this.task[index]
+        console.log(taskIndex);
+        if(index >=0 || index < this.task.length){
             this.task[index].name=newName;
             this.task[index].dueDate=newDueDate;
         }
-
-        else{
-
-            console.error('task not found');
-        
-        }
-        console.log(this.task)
-    }
-
-    removeTask(task,index){
-        if(index >= 0 || index < task.length ){
-            this.task.splice(index,1)
-            console.log(this.task)
+         else {
+            console.error('Invalid task index');
         }
     }
 }

@@ -31,7 +31,7 @@ export const addTaskDiv=document.querySelector('.add-task-div');
 
 homeTab.addEventListener('click', ()=>{
   currentTabH2.textContent="Home";
-  currentTabDiv.textContent="";
+  currentTabDiv.innerHTML="";
   addTaskDiv.textContent="";
   displayHome();
 });
@@ -53,7 +53,7 @@ ThisWeek.addEventListener('click', ()=>{
 });
 
 addProject.addEventListener('click', () =>{
-    currentTabH2.textContent="";
+    // currentTabH2.textContent="";
   addTaskDiv.append(cache.createTask);
     projectModal();
 });

@@ -1,7 +1,8 @@
 
+import { displayHome } from "./home.js";
 import {  addTaskDiv , currentTabDiv , modalBody ,currentTabH2 , overlay , openForm , closeForm  } from "./index";
 import { Project, ProjectManager, ProjectForm } from "./project";
-import { Task, TaskManager, TaskForm , checkTask , uncheckTask } from './task.js'
+import { Task, TaskManager, TaskForm  } from './task.js'
 
 
 export const cache=domCache({})
@@ -49,53 +50,40 @@ function taskModal(){
     
     openForm(cache.modal);
     displayForm();
-    
+
 }
 
-function editModal(task,index){
+
+function editModal(task, index) {
+    const modal = document.querySelector('#edit-modal');
     
-    const modal=document.querySelector('#edit-modal');
-    
-    let taskName=document.querySelector('.edit-name');
-    let taskDueDate=document.querySelector('.edit-due-date');
-    
+    let taskName = document.querySelector('.edit-name');
+    let taskDueDate = document.querySelector('.edit-due-date');
+
     taskName.value = task.name;
     taskDueDate.value = task.dueDate;
+
     
-    modal.style.display='block';
+    modal.style.display = 'block';
+
+    const editForm = document.querySelector('.edit-form');
     
-    
-    
-    
-    const editForm=document.querySelector('.edit-form');
-    
-    editForm.onsubmit= function(event){
+    editForm.onsubmit = function(event) {
         event.preventDefault();
         
+        const newName = taskName.value;
+        const newDueDate = taskDueDate.value;
         
-        const newName=taskName.value;
-        const newDueDate=taskDueDate.value;
-        
-        
-        taskManager.editTask(index,newName,newDueDate);
-        
+
+        projectManager.editTaskInProjectByName(selectedProjectName, index, newName, newDueDate );  // Ensure correct index and project are used
         displayTask();
-        const modals=document.querySelectorAll('.modal.active');
-        modals.forEach(modal=>{
+        
+        const modals = document.querySelectorAll('.modal.active');
+        modals.forEach(modal => {
             closeForm(modal);
-        })
-    }
+        });
+    };
 }
-
-
-
-
-
-
-  
-
-
-
 
 
 
@@ -180,82 +168,165 @@ function domCache(){
             crossIcon,
             checkBox,
             projectBtn
-
         }
 }
 
 
 
 
-export  function displayAllTask(){
+function displayTask() {
+    currentTabDiv.innerHTML = '';
+
+    const taskInProject= projectManager.getTaskForProject(selectedProjectName);
+
+   
         
-    currentTabDiv.innerHTML=''
+        if (taskInProject && taskInProject.length > 0) {
 
-    const tasks = project.getTask();
-
-    console.log('project.getTask() func=',project.getTask())
-    tasks.forEach((task,index)=>{
-
-        const taskContainer = document.createElement('div');
-        taskContainer.classList.add('task-container');
-
-        const taskList = document.createElement('div');
-        taskList.classList.add('task-list');
-
-        const leftSideTask = document.createElement('div');
-        const rightSideTask = document.createElement('div');
-
-        leftSideTask.classList.add('left-side-task');
-        rightSideTask.classList.add('right-side-task');
-
-
-        const checkBox = document.createElement('input');
-        checkBox.setAttribute('type', 'checkbox');
-        checkBox.classList.add('check-task');
-        checkBox.checked = task.checked;
-
-        const taskName = document.createElement('p');
-        taskName.textContent = task.name;
-        taskName.classList.add('task-name');
-        taskName.id = 'task-name';
-
-        const taskPriority = document.createElement('p');
-        taskPriority.textContent = task.priority;
-        taskPriority.classList.add('task-priority');
-
-        const taskDueDate = document.createElement('p');
-        taskDueDate.classList.add('task-due-date');
-        const date = dateFormat(task.dueDate); 
-        taskDueDate.textContent = date;
-
-        const editIcon = document.createElement('span');
-        editIcon.classList.add('edit-icon');
-        editIcon.textContent = '︙';
-
-        const crossIcon = document.createElement('span');
-        crossIcon.textContent = '×';
-        crossIcon.classList.add('remove-task');
-
-        
-        crossIcon.dataset.index = index;  
-        editIcon.dataset.index = index;
-
-        
-        currentTabDiv.append(taskContainer);
-        taskContainer.append(taskList);
-
-        taskList.append(leftSideTask);
-        taskList.append(rightSideTask);
-
-        leftSideTask.append(checkBox, taskName, taskPriority);
-        rightSideTask.append(taskDueDate, editIcon, crossIcon);
-
-
-        currentTabDiv.appendChild(taskList)
-    });
+                taskInProject.forEach((task, index) => {
     
-};
+                    console.log('in the forEach loop',selectedProjectName)
+                    const taskContainer = document.createElement('div');
+                    taskContainer.classList.add('task-container');
+    
+                    const taskList = document.createElement('div');
+                    taskList.classList.add('task-list');
+    
+                    const leftSideTask = document.createElement('div');
+                    const rightSideTask = document.createElement('div');
+    
+                    leftSideTask.classList.add('left-side-task');
+                    rightSideTask.classList.add('right-side-task');
+    
+                    const checkBox = document.createElement('input');
+                    checkBox.setAttribute('type', 'checkbox');
+                    checkBox.classList.add('check-task');
+                    checkBox.checked = task.checked;
+    
+                    const taskName = document.createElement('p');
+                    taskName.textContent = task.name;
+                    taskName.classList.add('task-name');
+                    taskName.id = 'task-name';
+    
+                    const taskPriority = document.createElement('p');
+                    taskPriority.textContent = task.priority;
+                    taskPriority.classList.add('task-priority');
+    
+                    const taskDueDate = document.createElement('p');
+                    taskDueDate.classList.add('task-due-date');
+                    const date = dateFormat(task.dueDate);
+                    taskDueDate.textContent = date;
+    
+                    const editIcon = document.createElement('span');
+                    editIcon.classList.add('edit-icon');
+                    editIcon.textContent = '︙';
+                    editIcon.dataset.index = index;
+    
+                    const crossIcon = document.createElement('span');
+                    crossIcon.textContent = '×';
+                    crossIcon.classList.add('remove-task');
+                    crossIcon.dataset.index = index;
+    
+                    currentTabDiv.append(taskContainer);
+                    taskContainer.append(taskList);
+    
+                    taskList.append(leftSideTask);
+                    taskList.append(rightSideTask);
+    
+                    leftSideTask.append(checkBox, taskName, taskPriority);
+                    rightSideTask.append(taskDueDate, editIcon, crossIcon);
+    
+                    currentTabDiv.appendChild(taskList);
 
+    
+                    editIcon.addEventListener('click', ()=>{
+             const openEditModal=document.querySelector('#edit-modal');
+                 openForm(openEditModal);                    
+                 editModal(task,index);
+    
+         });
+    
+         crossIcon.addEventListener('click', ()=>{
+             removeTask(index);
+         });
+    
+          if (checkBox.checked) {
+         checkTask(taskName);
+     }
+    
+     checkBox.addEventListener('click', () => {
+         task.checked = checkBox.checked;  
+         if (checkBox.checked) {
+             checkTask(taskName);
+         } else {
+             uncheckTask(taskName);
+         }
+     });
+                });
+            }
+}
+
+
+function checkTask(task){
+    return task.style.textDecoration='line-through';
+}
+function uncheckTask(task){
+    return task.style.textDecoration='none';
+}
+
+export function displayAllTask(){
+    const allTasks=taskManager.task;
+
+    currentTabDiv.innerHTML='';
+
+    allTasks.forEach((tasks)=>{
+
+         const taskContainer = document.createElement('div');
+                taskContainer.classList.add('task-container');
+
+                const taskList = document.createElement('div');
+                taskList.classList.add('task-list');
+
+                const leftSideTask = document.createElement('div');
+                const rightSideTask = document.createElement('div');
+
+                leftSideTask.classList.add('left-side-task');
+                rightSideTask.classList.add('right-side-task');
+
+                const checkBox = document.createElement('input');
+                checkBox.setAttribute('type', 'checkbox');
+                checkBox.classList.add('check-task');
+                checkBox.checked = tasks.checked;
+
+                const taskName = document.createElement('p');
+                taskName.textContent = tasks.name;
+                taskName.classList.add('task-name');
+                taskName.id = 'task-name';
+
+                const taskPriority = document.createElement('p');
+                taskPriority.textContent = tasks.priority;
+                taskPriority.classList.add('task-priority');
+
+                const taskDueDate = document.createElement('p');
+                taskDueDate.classList.add('task-due-date');
+                const date = dateFormat(tasks.dueDate);
+                taskDueDate.textContent = date;
+
+
+              
+                currentTabDiv.append(taskContainer);
+                taskContainer.append(taskList);
+
+                taskList.append(leftSideTask);
+                taskList.append(rightSideTask);
+
+                leftSideTask.append(taskName, taskPriority);
+                rightSideTask.append(taskDueDate);
+
+                currentTabDiv.appendChild(taskList);
+
+    });
+}
 
 
 
@@ -278,7 +349,7 @@ function displayForm(){
 cache.taskForm.addEventListener('submit', (e) => {
     e.preventDefault();
     createTaskInProject(cache.nameInput.value,cache.priorityInput.value,cache.dueDateInput.value,cache.checked=false);
-    displayAllTask();
+    displayTask();
     cache.nameInput.value=''
     cache.dueDateInput.value=''
     
@@ -287,7 +358,7 @@ cache.taskForm.addEventListener('submit', (e) => {
 
 
 
-let selectedProjectName = '';  // Store the selected project name
+let selectedProjectName = ''; 
 
 
 export function displayProject() {
@@ -297,20 +368,41 @@ export function displayProject() {
     const projectList = document.querySelector('.project-list');
     
     projectList.innerHTML=''
-
-    projectManager.project.forEach((projects)=>{
     
+    projectManager.project.forEach((project,index)=>{
+        
+        const projectNameField = document.createElement('div');
+        projectNameField.classList.add('project-list-field');
        const projectName = document.createElement('p');
        projectName.classList.add('project-name-list');
-       projectName.textContent = projects.name;
+       
+       const deleteProject=document.createElement('span');
+       deleteProject.classList.add('delete-project');
+       deleteProject.textContent='×';
+       deleteProject.dataset.index = index;
+
+
+
+       deleteProject.addEventListener('click',()=>{
+                removeProject(project,index)
+       })
+
+       projectName.textContent = project.name;
+
        projectDiv.append(projectList);
-       projectList.append(projectName);
+       projectList.append(projectNameField);
+       projectNameField.append(projectName);
+       projectNameField.append(deleteProject);
 
        projectName.addEventListener('click', () => {
-       selectedProjectName = projects.name;  // Store the selected project name
-            currentTabH2.textContent = projects.name;
+           selectedProjectName = project.name;  
+
+           currentTabDiv.innerHTML = '';
+           
+           displayTask()
+           
+           currentTabH2.textContent = project.name; 
             addTaskDiv.appendChild(cache.createTask);
-            currentTabDiv.textContent = '';
        
         }) 
     });
@@ -340,14 +432,11 @@ function createTaskInProject(name,priority,dueDate,checked){
     const taskForm=new TaskForm(name,priority,dueDate,checked);
     let { name:taskName , priority:taskPriority , dueDate:taskDueDate  , checked:taskChecked } = taskForm.getTaskDetails();
     const task = new Task(taskName, taskPriority, taskDueDate, taskChecked);
+    taskManager.addTask(task);
     if(selectedProjectName){
         projectManager.addTaskToProjectByName(selectedProjectName,task);    
-        console.log(taskManager.getTask());
-    }
-        else{
-            console.error('no project selected')
-        }
-    }
+    }   
+}
     
     
     
@@ -355,17 +444,20 @@ function createTaskInProject(name,priority,dueDate,checked){
     
     
     
-    function removeTask(task,index){
-        
-        taskManager.removeTask(task,index)
-        
-        displayAllTask()
+function removeTask(index){
+
+        projectManager.removeTaskFromProjectByName(selectedProjectName, index)
+        displayTask();
         
     }
     
+function removeProject(project,index){
+    projectManager.removeProject(project,index)
+    displayProject();
+    displayHome();
+}
     
-    
-    function dateFormat(date){
+function dateFormat(date){
         
         const changeFormat=date.split('-');
         return changeFormat.join(' / ');
@@ -389,28 +481,4 @@ function createTaskInProject(name,priority,dueDate,checked){
 
     
     
-         // removeTask(task,index);
-    
-         //            cache.editIcon.addEventListener('click', ()=>{
-         //     const openEditModal=document.querySelector('#edit-modal');
-         //         openForm(openEditModal);                    
-         //         editModal(task,index);
-    
-         // });
-    
-     //     cache.crossIcon.addEventListener('click', ()=>{
-     //         removeTask(task,index);
-     //     });
-    
-     //      if (cache.checkBox.checked) {
-     //     checkTask(taskName);
-     // }
-    
-     // cache.checkBox.addEventListener('click', () => {
-     //     task.checked = cache.checkBox.checked;  
-     //     if (cache.checkBox.checked) {
-     //         checkTask(taskName);
-     //     } else {
-     //         uncheckTask(taskName);
-     //     }
-     // });
+  
