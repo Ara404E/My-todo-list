@@ -38,6 +38,7 @@
 
                 <div  class="modal" id="modal"> 
                     <div class="modal-body">
+                        <h1 class="modal-heading">TO DO</h1>
                     </div>
                 </div>
                          <!-- --------- -->
@@ -47,19 +48,20 @@
                 <span class="current-task">Tasks</span>
                 <hr>
                 
-                <div class="current-tab-div" id="current-tab-div"></div>
+                <div class="current-tab-div" id="current-tab-div">
+                </div>
                 <div class="add-task-div"></div>
             </div>
         </section>
 
     </div>
                 <div  class="modal" id="edit-modal"> 
-                    <div class="modal-body">
+                    <div class="edit-modal-body">
                        <form action=""  class="edit-form">
-                            <input type="text" class="edit-name" placeholder="Task Name">
-                            <input type="date" class="edit-due-date">
+                            <input type="text" class="edit-name" placeholder="Task Name"> <br>
+                            <input type="date" class="edit-due-date"> <br>
                                     
-                            <button type="submit"> Save Changes </button>
+                            <button type="submit" class="edit-btn"> Save Changes </button>
                         
                         </form>
             </div>
@@ -68,8 +70,9 @@
                      <div  class="modal" id="project-modal"> 
                     <div class="modal-body" id="project-body-modal">
                        <form action=""  class="project-form">
-                            <input type="text" class="project-name" placeholder="project name">
-                            <textarea name="" id="project-description" placeholder="Project description"></textarea>
+                            <input type="text" class="project-name" placeholder="project name"> <br>
+
+                            <textarea name="" id="project-description" class="project-description" placeholder="Project description (optional)"></textarea> <br>
                                             
                             <button type="submit" class="create-project-btn"> Create Project </button>
                         

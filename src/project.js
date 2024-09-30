@@ -2,11 +2,18 @@
 import { TaskManager } from './task.js';
 
 
-export class Project{
+const LOCAL_STORAGE_LIST_KEY= 'project.lists';
+const LOCAL_STORAGE_SELECTED_PROJECT= 'project.selected';
+
+ class Project{
     constructor(name,description=''){
         this.name=name;
         this.description=description;
         this.taskManager=new TaskManager();
+
+        if(!(this.taskManager instanceof TaskManager)){
+                this.taskManager = new TaskManager();
+        }
 
     }
 
@@ -45,14 +52,27 @@ export class Project{
 
 }
 
-export class ProjectManager {
+ class ProjectManager {
     
     constructor(){
-        this.project=[];    
+        const projectStorage=JSON.parse(localStorage.getItem(LOCAL_STORAGE_LIST_KEY)) || []
+        this.project=projectStorage.map(proj => {
+            const restoredProject=Object.assign(new Project(), proj)
+            restoredProject.taskManager=Object.assign(new TaskManager(), restoredProject.taskManager);
+            
+            return restoredProject
+        });
+    }
+    
+
+    save(){
+    localStorage.setItem(LOCAL_STORAGE_LIST_KEY, JSON.stringify(this.project));
+    
     }
     
     addProject(project){
         this.project.push(project)
+        this.save();
     }
     
     getProjectByName(name){
@@ -65,13 +85,15 @@ export class ProjectManager {
         
         if(project){
             project.addTask(task);
+            this.save();
         }
     }
     
     getTaskForProject(name){
         const project = this.getProjectByName(name);
         if(project){
-            return project.getTask() 
+            return project.getTask()
+        
         }
         else{
             console.error('project not found')
@@ -83,6 +105,8 @@ export class ProjectManager {
         const project = this.getProjectByName(projectName);
         if (project) {
             project.removeTask(index);
+            this.save();
+
         } else {
             console.error('Project not found');
         }
@@ -91,22 +115,27 @@ export class ProjectManager {
     editTaskInProjectByName(projectName, index, newName, newDueDate) {
         const project = this.getProjectByName(projectName);
         if (project) {
+
             project.editTask(index, newName, newDueDate);
-        } else {
+            this.save();
+        }
+         else {
             console.error('Project not found');
         }
     }
 
     removeProject(project,index){
-        if(index >=0 || index <= project.length){
-            this.project.splice(index,1)
+        if(index >=0 || index < project.length){
+                this.project.splice(index,1)
+                this.save();
+                console.log(this.project)
         }
     }
 
 }
 
 
-export class ProjectForm{
+ class ProjectForm{
     
     constructor(name,description){
         
@@ -125,3 +154,5 @@ export class ProjectForm{
         }
     }
 }
+
+export { Project , ProjectManager , ProjectForm, LOCAL_STORAGE_SELECTED_PROJECT }

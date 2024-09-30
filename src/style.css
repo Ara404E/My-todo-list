@@ -19,29 +19,110 @@ h1{
 
         /* modal */
 
-#modal{
+    #modal {
     position: fixed;
-    top: 31%;
-    transform: translate(3%) scale(0);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
     transition: 200ms ease-in-out;
-    /* border: solid 1px black; */
+    border: solid 1px black;
     border-radius: 10px;
     z-index: 10;
     margin: 5px 3px;
-    width: 100%;
-    max-width: 50%;
-    height: 58px;
+    width: 28%; /* Keep the modal width as it is */
+    max-width: 600px;
+    background-color: #191A19;
+    padding: 20px;
 }
-#modal.active{
-    transform: translate(3%) scale(1);
+
+#modal.active {
+    transform: translate(-50%, -50%) scale(1);
     opacity: 1;
     pointer-events: all;
 }
 
-.modal-body{
+.modal-body {
     display: flex;
-    padding: 7px 10px ;
+    flex-direction: column;
+    padding: 7px 10px;
+    gap: 15px; /* More space between inputs */
+    align-items: center;
 }
+
+.name-input,
+.date-input,
+.priority-input,
+.form-btn {
+    width: 110%; /* Keep the current input field width */
+    max-width: 500px; /* Ensure inputs don't get too wide on large screens */
+    height: 40px;
+    border-radius: 10px;
+    background-color: #F8E8EE;
+    border: none;
+    padding: 5px;
+    margin-bottom: 15px;
+    /* Add left margin to shift fields to the left */
+    margin-left: -20px; /* Adjust this value as needed */
+}
+
+#create-task {
+    margin-top: 20px;
+    width: 90%; /* Button matches input widths */
+    font-size: 1.25rem;
+    color: #F9ED69;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+.form-btn{
+    background-color: #DEF5E5;
+    cursor: pointer;
+}
+.form-btn:hover {
+    color: #E23E57;
+    border: none;
+    background: none;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    #modal {
+        width: 40%; /* Adapt modal size for smaller screens */
+        transform: translate(-50%, -50%) scale(0);
+
+    }
+
+    .name-input,
+    .date-input,
+    .priority-input,
+    .form-btn {
+        width: 100%; /* Full width input fields */
+        margin-left: 0; /* Ensure it resets on smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    #modal {
+        width: 50%; /* Full width for mobile screens */
+        transform: translate(-50%, -50%) scale(0);
+    }
+
+    .name-input,
+    .date-input,
+    .priority-input,
+    .form-btn {
+        width: 100%; /* Full width input fields */
+        height: 35px;
+        font-size: 0.8rem;
+        margin-left: 0; /* Ensure it resets on smaller screens */
+    }
+
+    #create-task {
+        font-size: 1rem;
+    }
+}
+
+
 
 #overlay{
     position: fixed;
@@ -49,7 +130,7 @@ h1{
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0,0,0,.1);
+    background-color: rgba(0,0,0,.5);
     pointer-events: none;
     opacity: 0;
 }
@@ -58,15 +139,6 @@ h1{
     opacity: 1;
     pointer-events: all;
 
-}
-#create-task{
-    margin-top: 50px ;
-    width: 120px;
-    font-size: 1.25rem;
-    color: #F9ED69;
-    cursor: pointer;
-    border: none;
-    background: none;
 }
 
 
@@ -82,71 +154,83 @@ h1{
 }
 
 
-.name-input{
-    margin: 2px;
-    width: 300px;
-    height: 30px;
-    padding-left: 5px;
-    border-radius: 10px;
-    background-color:#FFE6E6;
-    color:#1E2022 ;
-        border: none;
-}
-
-.date-input{
-    margin: 2px; 
-    height: 30px;
-    border-radius: 10px;
-    background-color:#FFE6E6;
-    cursor: pointer;
-    color: #212121 ;
-        border: none;
-}
-
-.priority-input{
-    margin: 2px;
-    height: 30px;
-    border-radius: 10px;
-    background-color:#FFE6E6;
-    cursor: pointer;
-    border: none;
-}
-
-.form-btn{
-    margin: 2px;
-    width: 100px;
-    height: 30px;
-    border-radius: 10px;
-    cursor: pointer;
-    background-color: #FFE6E6;
-    border: none;
-}
-
-.form-btn:hover{
-    background-color: #323232;
-    color: #E23E57;
-    border: none;
-}
         /* edit form modal */
-
-#edit-modal{
+#edit-modal {
     position: fixed;
-    top: 31%;
-    transform: translate(3%) scale(0);
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
     transition: 200ms ease-in-out;
-    border: solid 1px black;
     border-radius: 10px;
     z-index: 10;
-    margin: 5px 3px;
-    width: 100%;
-    max-width: 50%;
-    height: 58px;
+    width: 40%;
+    max-width: 90%;
+    height: auto;
+    padding: 20px;
+    background-color: #1E2022;
+    color: #917FB3;
+    border: solid 1px #BAD7DF;
 }
 
-#edit-modal.active{
-    transform: translate(3%) scale(1);
+#edit-modal.active {
+    transform: translate(-50%, -50%) scale(1);
     opacity: 1;
     pointer-events: all;
+}
+
+.edit-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.edit-name,
+.edit-due-date,
+.edit-btn {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    background-color: #F5EFFF;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.edit-btn {
+    background-color: #E3FDFD;
+    cursor: pointer;
+}
+
+.edit-btn:hover {
+    background: none;
+    border: none;
+    color: #B7E0FF;
+    font-weight: bold;
+}
+
+/* Media Queries for Smaller Devices */
+@media (max-width: 768px) {
+    #edit-modal {
+        width: 80%;
+        top: 40%;
+        
+    }
+}
+
+@media (max-width: 480px) {
+    #edit-modal {
+        width: 90%;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+    }
+
+    .edit-name,
+    .edit-due-date,
+    .edit-btn {
+        height: 35px;
+        font-size: 14px;
+    }
 }
 
 
@@ -239,13 +323,12 @@ ul {
          
 #right-side{
  margin-top: 20px;
- max-width: 85%;
+ max-width: 100%;
 }
   
-
 .right-side-container > hr{ 
     max-width: 100%;    
-    border-color: #EB5B00;
+    border-color: #D6EFED;
 }
 .current-tab{
     font-size: 1.75rem;
@@ -253,7 +336,7 @@ ul {
     color: #F4CE14;
 }
 .current-task{
-    color: #EB5B00;
+    color: #917FB3;
     font-weight: bold;
     font-size: 1.25rem;
 }
@@ -264,23 +347,30 @@ ul {
      /* Task container */
 
 
+
+.task-container{
+    background-color: #251B37;
+    color: #FFE6E6;
+    border:solid 1px ;
+    border-radius: 20px;
+    margin:10px;
+}
+
 .task-list {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    border-bottom: solid 1px #E23E57;
     padding: 5px 0;
-    gap: 20px; /* Add some gap between the left and right sides */
-    color: #FFE6E6;
+    gap: 20px; 
 }
 
 .left-side-task {
     display: flex;
     align-items: center;
-    gap: 10px; /* Reduce gap for better alignment */
+    gap: 10px; 
     flex: 1;
-    min-width: 0; /* Allows the task name to shrink if needed */
+    min-width: 0; 
 }
 
 .right-side-task {
@@ -316,23 +406,26 @@ ul {
     flex-shrink: 0; /* Prevents these from shrinking */
 }
 
+.remove-task{
+    padding-right: 10px;
+}
+
 .remove-task:hover {
     color: #FF2E63;
-    font-size: 1.5rem;
 }
 
 .edit-icon {
     font-size: 1rem;
-    color: #F4CE14;
+    color: #FFE6E6;
     text-align: right;
 }
 
 .edit-icon:hover {
-    font-size: 1.25rem;
-    color: #F9ED69;
+    color: #176B87;
 }
 
 .check-task {
+    margin-left: 10px;
     cursor: pointer;
     accent-color: #E23E57 ;
 }
@@ -348,27 +441,85 @@ ul {
 /* add project modal */
 
 
-#project-modal{
+#project-modal {
     position: fixed;
-    top: 31%;
-    transform: translate(3%) scale(0);
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
     transition: 200ms ease-in-out;
-    /* border: solid 1px black; */
+    border: solid 1px black;
     border-radius: 10px;
     z-index: 10;
     margin: 5px 3px;
-    width: 100%;
-    max-width: 50%;
-    height: 58px;
+    width: 35%;
+    max-width: 90%;
+    height: auto;
+    background-color: #251B37;
+    padding: 20px;
+    border: #D6EFED 1px solid;
 }
-#project-modal.active{
-    transform: translate(3%) scale(1);
+
+#project-modal.active {
+    transform: translate(-50%, -50%) scale(1);
     opacity: 1;
     pointer-events: all;
 }
 
-#project-body-modal{
+#project-body-modal {
     display: flex;
-    padding: 7px 10px ;
+    flex-direction: column;
+    padding: 7px 10px;
+    gap: 10px;
 }
 
+.project-name,
+#project-description {
+    width: 100%;
+    height: 50px;
+    margin: 10px 0;
+    background-color: #D6EFED;
+    font-size: 1.10rem;
+}
+
+.create-project-btn {
+    cursor: pointer;
+    width: 100%;
+    height: 40px;
+    border-radius: 100px;
+    margin: 0 auto;
+    background-color: #D6EFED;
+    font-size: 1.10rem;
+    color: #52057B;
+}
+
+.create-project-btn:hover {
+    color: #fa557e;
+    background-color: #251B37;
+    font-size: 1.25rem;
+    border: none;
+    background: none;
+}
+
+/* Media Queries for Smaller Devices */
+@media (max-width: 768px) {
+    #project-modal {
+        width: 80%;
+        top: 40%;
+    }
+}
+
+@media (max-width: 480px) {
+    #project-modal {
+        width: 90%;
+        top: 45%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+    }
+
+    .project-name,
+    #project-description,
+    .create-project-btn {
+        height: 35px;
+        font-size: 14px;
+    }
+}

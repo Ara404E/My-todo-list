@@ -11,7 +11,6 @@ import { displayHome } from './home'
 import { displayThisWeek } from './thisWeek';
 import { displayToday } from './today';
 import {  projectModal , displayProject , cache } from './displayUI';
-import { Project } from './project';
 
 
 
@@ -27,6 +26,8 @@ export const currentTabDiv=document.querySelector(".current-tab-div");
 export const modalBody=document.querySelector(".modal-body");
 export const overlay=document.querySelector('#overlay');
 export const addTaskDiv=document.querySelector('.add-task-div');
+
+
 
 
 homeTab.addEventListener('click', ()=>{

@@ -1,7 +1,7 @@
 
 import { displayHome } from "./home.js";
-import {  addTaskDiv , currentTabDiv , modalBody ,currentTabH2 , overlay , openForm , closeForm  } from "./index";
-import { Project, ProjectManager, ProjectForm } from "./project";
+import {  addTaskDiv, currentTabDiv, modalBody, currentTabH2, openForm , closeForm  } from "./index";
+import { Project, ProjectManager, ProjectForm, LOCAL_STORAGE_SELECTED_PROJECT } from "./project";
 import { Task, TaskManager, TaskForm  } from './task.js'
 
 
@@ -10,8 +10,6 @@ export const cache=domCache({})
 const taskManager = new TaskManager(); 
 
 const projectManager = new ProjectManager();
-
-const project=new Project();
 
 const projectForm=document.querySelector('.project-form');
 
@@ -29,7 +27,9 @@ const projectDescription=document.querySelector('#project-description');
 projectForm.onsubmit = (e)=>{
     e.preventDefault();
     createProject(projectName.value,projectDescription.value);
-        displayProject();
+
+    projectManager.save();
+    displayProject();
 
     projectName.value='';
     projectDescription.value='';
@@ -55,8 +55,8 @@ function taskModal(){
 
 
 function editModal(task, index) {
+
     const modal = document.querySelector('#edit-modal');
-    
     let taskName = document.querySelector('.edit-name');
     let taskDueDate = document.querySelector('.edit-due-date');
 
@@ -128,8 +128,8 @@ function domCache(){
         checkBox.classList.add('check-task');
         
         
-        createTask.id='create-task'
-        submitTask.id='form-btn'
+        createTask.id='create-task';
+        submitTask.id='form-btn';
         
         
         
@@ -152,8 +152,10 @@ function domCache(){
         crossIcon.textContent='×';
         
         
+        nameInput.placeholder='Task Name';
         
-        
+
+
         return{
 
             formContainer,
@@ -168,6 +170,7 @@ function domCache(){
             crossIcon,
             checkBox,
             projectBtn
+
         }
 }
 
@@ -233,10 +236,10 @@ function displayTask() {
                     taskList.append(leftSideTask);
                     taskList.append(rightSideTask);
     
-                    leftSideTask.append(checkBox, taskName, taskPriority);
-                    rightSideTask.append(taskDueDate, editIcon, crossIcon);
+                    leftSideTask.append(checkBox, taskName);
+                    rightSideTask.append(taskPriority,taskDueDate, editIcon, crossIcon);
     
-                    currentTabDiv.appendChild(taskList);
+
 
     
                     editIcon.addEventListener('click', ()=>{
@@ -274,59 +277,59 @@ function uncheckTask(task){
     return task.style.textDecoration='none';
 }
 
-export function displayAllTask(){
-    const allTasks=taskManager.task;
+// export function displayAllTask(){
+    
+//     const allTasks=taskManager.task;
+//     currentTabDiv.innerHTML='';
 
-    currentTabDiv.innerHTML='';
+//     allTasks.forEach((tasks)=>{
 
-    allTasks.forEach((tasks)=>{
+//          const taskContainer = document.createElement('div');
+//                 taskContainer.classList.add('task-container');
 
-         const taskContainer = document.createElement('div');
-                taskContainer.classList.add('task-container');
+//                 const taskList = document.createElement('div');
+//                 taskList.classList.add('task-list');
 
-                const taskList = document.createElement('div');
-                taskList.classList.add('task-list');
+//                 const leftSideTask = document.createElement('div');
+//                 const rightSideTask = document.createElement('div');
 
-                const leftSideTask = document.createElement('div');
-                const rightSideTask = document.createElement('div');
+//                 leftSideTask.classList.add('left-side-task');
+//                 rightSideTask.classList.add('right-side-task');
 
-                leftSideTask.classList.add('left-side-task');
-                rightSideTask.classList.add('right-side-task');
+//                 const checkBox = document.createElement('input');
+//                 checkBox.setAttribute('type', 'checkbox');
+//                 checkBox.classList.add('check-task');
+//                 checkBox.checked = tasks.checked;
 
-                const checkBox = document.createElement('input');
-                checkBox.setAttribute('type', 'checkbox');
-                checkBox.classList.add('check-task');
-                checkBox.checked = tasks.checked;
+//                 const taskName = document.createElement('p');
+//                 taskName.textContent = tasks.name;
+//                 taskName.classList.add('task-name');
+//                 taskName.id = 'task-name';
 
-                const taskName = document.createElement('p');
-                taskName.textContent = tasks.name;
-                taskName.classList.add('task-name');
-                taskName.id = 'task-name';
+//                 const taskPriority = document.createElement('p');
+//                 taskPriority.textContent = tasks.priority;
+//                 taskPriority.classList.add('task-priority');
 
-                const taskPriority = document.createElement('p');
-                taskPriority.textContent = tasks.priority;
-                taskPriority.classList.add('task-priority');
-
-                const taskDueDate = document.createElement('p');
-                taskDueDate.classList.add('task-due-date');
-                const date = dateFormat(tasks.dueDate);
-                taskDueDate.textContent = date;
+//                 const taskDueDate = document.createElement('p');
+//                 taskDueDate.classList.add('task-due-date');
+//                 const date = dateFormat(tasks.dueDate);
+//                 taskDueDate.textContent = date;
 
 
               
-                currentTabDiv.append(taskContainer);
-                taskContainer.append(taskList);
+//                 currentTabDiv.append(taskContainer);
+//                 taskContainer.append(taskList);
 
-                taskList.append(leftSideTask);
-                taskList.append(rightSideTask);
+//                 taskList.append(leftSideTask);
+//                 taskList.append(rightSideTask);
 
-                leftSideTask.append(taskName, taskPriority);
-                rightSideTask.append(taskDueDate);
+//                 leftSideTask.append(taskName, taskPriority);
+//                 rightSideTask.append(taskDueDate);
 
-                currentTabDiv.appendChild(taskList);
+//                 currentTabDiv.appendChild(taskList);
 
-    });
-}
+//     });
+// }
 
 
 
@@ -371,7 +374,7 @@ export function displayProject() {
     
     projectManager.project.forEach((project,index)=>{
         
-        const projectNameField = document.createElement('div');
+        const projectNameField = document.createElement('li');
         projectNameField.classList.add('project-list-field');
        const projectName = document.createElement('p');
        projectName.classList.add('project-name-list');
@@ -385,6 +388,7 @@ export function displayProject() {
 
        deleteProject.addEventListener('click',()=>{
                 removeProject(project,index)
+                displayProject();
        })
 
        projectName.textContent = project.name;
@@ -394,9 +398,10 @@ export function displayProject() {
        projectNameField.append(projectName);
        projectNameField.append(deleteProject);
 
-       projectName.addEventListener('click', () => {
-           selectedProjectName = project.name;  
-
+       projectNameField.addEventListener('click', (e) => {
+           selectedProjectName = project.name;
+           console.log(selectedProjectName);
+           console.log(projectManager.project);
            currentTabDiv.innerHTML = '';
            
            displayTask()
@@ -445,7 +450,7 @@ function createTaskInProject(name,priority,dueDate,checked){
     
     
 function removeTask(index){
-
+        currentTabDiv.innerHTML='';
         projectManager.removeTaskFromProjectByName(selectedProjectName, index)
         displayTask();
         
@@ -453,8 +458,6 @@ function removeTask(index){
     
 function removeProject(project,index){
     projectManager.removeProject(project,index)
-    displayProject();
-    displayHome();
 }
     
 function dateFormat(date){
