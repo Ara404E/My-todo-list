@@ -1,3 +1,6 @@
+import { format, isToday, isThisWeek } from 'date-fns';
+
+
 
 class Task{
     
@@ -26,9 +29,27 @@ class TaskManager{
     return this.task
 
     }
+     // Get tasks due today
+    getTasksDueToday() {
+
+        return this.task.filter(task => isToday(new Date(task.dueDate)));
+    }
+
+    // Get tasks due this week
+    getTasksDueThisWeek() {
+
+        return this.task.filter(task => isThisWeek(new Date(task.dueDate)));
+    }
+
+    // Get overdue tasks
+    getOverdueTasks() {
+
+        return this.task.filter(task => new Date(task.dueDate) < new Date());
+    }
 
      
     removeTask(index) {
+        
         if(index >= 0 || index < this.task.length) {
             this.task.splice(index, 1);
         }
