@@ -117,9 +117,9 @@ h1{
         margin-left: 0; /* Ensure it resets on smaller screens */
     }
 
-    #create-task {
+#create-task {
         font-size: 1rem;
-    }
+}
 }
 
 

@@ -8,7 +8,7 @@ import './displayUI';
 
 
 import { displayHome } from './home'
-import { displayThisWeek } from './thisWeek';
+import { displayThisWeekTab } from './thisWeek';
 import { displayToday } from './today';
 import {  projectModal , displayProject , cache } from './displayUI';
 
@@ -49,7 +49,7 @@ ThisWeek.addEventListener('click', ()=>{
   currentTabH2.textContent="This Week";
   currentTabDiv.textContent="";
   addTaskDiv.textContent="";
-  displayThisWeek();
+  displayThisWeekTab();
 
 });
 

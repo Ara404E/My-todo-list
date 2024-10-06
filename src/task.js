@@ -1,4 +1,4 @@
-import { format, isToday, isThisWeek } from 'date-fns';
+import {  isToday, isThisWeek } from 'date-fns';
 
 
 
@@ -39,17 +39,19 @@ class TaskManager{
     getTasksDueThisWeek() {
 
         return this.task.filter(task => isThisWeek(new Date(task.dueDate)));
+
     }
 
     // Get overdue tasks
     getOverdueTasks() {
 
         return this.task.filter(task => new Date(task.dueDate) < new Date());
+
     }
 
      
     removeTask(index) {
-        
+
         if(index >= 0 || index < this.task.length) {
             this.task.splice(index, 1);
         }
@@ -91,4 +93,13 @@ class TaskForm{
 }
 
 
-export { Task , TaskManager , TaskForm } 
+function checkTask(task){
+    return task.style.textDecoration='line-through';
+}
+function uncheckTask(task){
+    return task.style.textDecoration='none';
+}
+
+
+
+export { Task , TaskManager , TaskForm , checkTask , uncheckTask } 

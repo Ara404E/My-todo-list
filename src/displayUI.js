@@ -1,8 +1,6 @@
-
-import { displayHome } from "./home.js";
 import {  addTaskDiv, currentTabDiv, modalBody, currentTabH2, openForm , closeForm  } from "./index";
-import { Project, ProjectManager, ProjectForm, LOCAL_STORAGE_SELECTED_PROJECT } from "./project";
-import { Task, TaskManager, TaskForm  } from './task.js'
+import { Project, ProjectManager, ProjectForm } from "./project";
+import { Task, TaskManager, TaskForm , checkTask , uncheckTask } from './task.js'
 
 
 export const cache=domCache({})
@@ -29,10 +27,13 @@ projectForm.onsubmit = (e)=>{
     createProject(projectName.value,projectDescription.value);
 
     projectManager.save();
+
     displayProject();
 
-    projectName.value='';
-    projectDescription.value='';
+    // projectName.value='';
+    // projectDescription.value='';
+
+    projectForm.reset();
 
 };
    
@@ -46,7 +47,7 @@ export function projectModal(){
 
 }
 
-function taskModal(){
+export function taskModal(){
     
     openForm(cache.modal);
     displayForm();
@@ -54,7 +55,7 @@ function taskModal(){
 }
 
 
-function editModal(task, index) {
+export function editModal(task, index) {
 
     const modal = document.querySelector('#edit-modal');
     let taskName = document.querySelector('.edit-name');
@@ -76,12 +77,13 @@ function editModal(task, index) {
         
 
         projectManager.editTaskInProjectByName(selectedProjectName, index, newName, newDueDate );  // Ensure correct index and project are used
-        displayTask();
+        renderTask();
         
         const modals = document.querySelectorAll('.modal.active');
         modals.forEach(modal => {
             closeForm(modal);
         });
+        editForm.reset();
     };
 }
 
@@ -177,7 +179,8 @@ function domCache(){
 
 
 
-function displayTask() {
+
+export function renderTask() {
     currentTabDiv.innerHTML = '';
 
     const taskInProject= projectManager.getTaskForProject(selectedProjectName);
@@ -238,98 +241,24 @@ function displayTask() {
     
                     leftSideTask.append(checkBox, taskName);
                     rightSideTask.append(taskPriority,taskDueDate, editIcon, crossIcon);
-    
 
-
+        editIcon.addEventListener('click', () => {
+            const openEditModal=document.querySelector('#edit-modal');
+            openForm(openEditModal)
+            editModal(task,index);
+        })
+        crossIcon.addEventListener('click' , () => removeTask(index));
     
-                    editIcon.addEventListener('click', ()=>{
-             const openEditModal=document.querySelector('#edit-modal');
-                 openForm(openEditModal);                    
-                 editModal(task,index);
-    
-         });
-    
-         crossIcon.addEventListener('click', ()=>{
-             removeTask(index);
-         });
-    
-          if (checkBox.checked) {
-         checkTask(taskName);
-     }
-    
-     checkBox.addEventListener('click', () => {
-         task.checked = checkBox.checked;  
-         if (checkBox.checked) {
-             checkTask(taskName);
-         } else {
-             uncheckTask(taskName);
-         }
-     });
-                });
-            }
+     checkBox.addEventListener('click', () =>{
+             task.checked=checkBox.checked
+             checkBox.checked ? checkTask(taskName) : uncheckTask(taskName);
+      });
+    });
+  }
 }
 
 
-function checkTask(task){
-    return task.style.textDecoration='line-through';
-}
-function uncheckTask(task){
-    return task.style.textDecoration='none';
-}
 
-// export function displayAllTask(){
-    
-//     const allTasks=taskManager.task;
-//     currentTabDiv.innerHTML='';
-
-//     allTasks.forEach((tasks)=>{
-
-//          const taskContainer = document.createElement('div');
-//                 taskContainer.classList.add('task-container');
-
-//                 const taskList = document.createElement('div');
-//                 taskList.classList.add('task-list');
-
-//                 const leftSideTask = document.createElement('div');
-//                 const rightSideTask = document.createElement('div');
-
-//                 leftSideTask.classList.add('left-side-task');
-//                 rightSideTask.classList.add('right-side-task');
-
-//                 const checkBox = document.createElement('input');
-//                 checkBox.setAttribute('type', 'checkbox');
-//                 checkBox.classList.add('check-task');
-//                 checkBox.checked = tasks.checked;
-
-//                 const taskName = document.createElement('p');
-//                 taskName.textContent = tasks.name;
-//                 taskName.classList.add('task-name');
-//                 taskName.id = 'task-name';
-
-//                 const taskPriority = document.createElement('p');
-//                 taskPriority.textContent = tasks.priority;
-//                 taskPriority.classList.add('task-priority');
-
-//                 const taskDueDate = document.createElement('p');
-//                 taskDueDate.classList.add('task-due-date');
-//                 const date = dateFormat(tasks.dueDate);
-//                 taskDueDate.textContent = date;
-
-
-              
-//                 currentTabDiv.append(taskContainer);
-//                 taskContainer.append(taskList);
-
-//                 taskList.append(leftSideTask);
-//                 taskList.append(rightSideTask);
-
-//                 leftSideTask.append(taskName, taskPriority);
-//                 rightSideTask.append(taskDueDate);
-
-//                 currentTabDiv.appendChild(taskList);
-
-//     });
-// }
 
 
 
@@ -352,16 +281,17 @@ function displayForm(){
 cache.taskForm.addEventListener('submit', (e) => {
     e.preventDefault();
     createTaskInProject(cache.nameInput.value,cache.priorityInput.value,cache.dueDateInput.value,cache.checked=false);
-    displayTask();
+    renderTask();
     cache.nameInput.value=''
     cache.dueDateInput.value=''
+    cache.taskForm.reset();
     
 });
 
 
 
 
-let selectedProjectName = ''; 
+export let selectedProjectName = ''; 
 
 
 export function displayProject() {
@@ -404,7 +334,7 @@ export function displayProject() {
            console.log(projectManager.project);
            currentTabDiv.innerHTML = '';
            
-           displayTask()
+           renderTask()
            
            currentTabH2.textContent = project.name; 
             addTaskDiv.appendChild(cache.createTask);
@@ -452,7 +382,7 @@ function createTaskInProject(name,priority,dueDate,checked){
 function removeTask(index){
         currentTabDiv.innerHTML='';
         projectManager.removeTaskFromProjectByName(selectedProjectName, index)
-        displayTask();
+        renderTask();
         
     }
     
@@ -464,24 +394,4 @@ function dateFormat(date){
         
         const changeFormat=date.split('-');
         return changeFormat.join(' / ');
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    
-  
+}

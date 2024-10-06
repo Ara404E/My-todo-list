@@ -1,8 +1,8 @@
-import { displayAllTask } from './displayUI.js'
+import { renderTask  } from './displayUI.js'
 
 
 export function displayHome(){
-    // displayAllTask()
+        renderTask();
 };
 
 
