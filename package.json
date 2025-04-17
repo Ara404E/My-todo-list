@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/Ara404E/My-todo-list/issues"
   },
-  "homepage": "https://github.com/Ara404E/My-todo-list",
+"homepage": "https://Ara404E.github.io/My-todo-list",
   "devDependencies": {
     "css-loader": "^7.1.2",
     "gh-pages": "^6.3.0",
