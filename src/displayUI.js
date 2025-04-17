@@ -101,14 +101,14 @@ function domCache(){
         const editIcon=document.createElement('span');
         const crossIcon=document.createElement('span');
         const checkBox=document.createElement('input');
-
+        const projectBtn=document.querySelector('.add-project-btn');
+        const modal=document.querySelector('#modal')
                     
         
         
         
         
-        const projectBtn=document.querySelector('.add-project-btn');
-        const modal=document.querySelector('#modal')
+       
         
         nameInput.setAttribute('type', 'text');
         dueDateInput.setAttribute('type', 'date');

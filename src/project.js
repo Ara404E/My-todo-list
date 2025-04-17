@@ -14,7 +14,6 @@ const LOCAL_STORAGE_SELECTED_PROJECT= 'project.selected';
         if(!(this.taskManager instanceof TaskManager)){
                 this.taskManager = new TaskManager();
         }
-
     }
 
 
