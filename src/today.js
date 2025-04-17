@@ -2,7 +2,7 @@ import { currentTabDiv } from "./index";
 import { ProjectManager } from "./project";
 import { isToday, parseISO } from 'date-fns';
 import { checkTask , uncheckTask } from './task.js'
-import { editModal ,  removeTask , selectedProjectName } from './displayUI.js'
+import { editModal , selectedProjectName } from './displayUI.js'
 
 const projectManager = new ProjectManager();
 
